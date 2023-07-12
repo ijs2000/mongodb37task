@@ -1,0 +1,120 @@
+1)Find all the topics and tasks which are thought in the month of October
+
+Ans:-
+
+db.users.find().forEach((ele)=>{
+    
+    ele.date_wise_activities.forEach((element)=>{
+        let seperateDate =element.date.split("-")
+        if( seperateDate[1] === "oct"){
+            print(element.date + " " + "Topics :" + element.topics + " " + "Task :" + element.tasks)
+        }
+    })
+})
+
+-----------------------------------------------------------------------------------------
+
+2)Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020
+
+Ans:-
+
+db.users.find().forEach((ele)=>{
+    
+    ele.date_wise_activities.forEach((element)=>{
+        let seperateDate =element.date.split("-");
+        let fullDate = element.date;
+        if( seperateDate[2] === "2020" && seperateDate[1] === "oct" && seperateDate[0]>=15 && seperateDate[0]<=31){
+            element.compony_drives.forEach((name)=>{
+                print(fullDate + " " + "Company Name :" + name.companyName)
+            })
+        }
+    })
+
+}
+) 
+
+-------------------------------------------------------------------------------------------------------------------
+
+3)Find all the company drives and students who are appeared for the placement.
+
+Ans:-
+
+db.users.find().forEach((ele)=>{
+  ele.date_wise_activities.forEach((element)=>{
+        let fullDate = element.date;
+        element.compony_drives.forEach((name)=>{
+             let Companyname = name.companyName;
+             name.placementDetails.forEach((companydetails)=>{
+                if(companydetails.status === "selected"){
+                    print(fullDate + " " + companydetails.name + "->" + Companyname)
+                }
+             }) 
+        })
+        
+    })
+
+}
+) 
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+4)Find the number of problems solved by the user in codekata
+
+Ans:-
+
+db.users.find().forEach((ele)=>{
+    
+    ele.userDetails.forEach((element)=>{
+       print(element.user + " " + "->" + " " + element.codeKata + " " + "Codekata Problems Solved")
+    })
+})
+
+------------------------------------------------------------------------------------------------------------------------
+5)Find all the mentors with who has the mentee's count more than 15
+
+Ans:-
+
+db.users.find().forEach((ele)=>{
+    let studentsDetails = ele.userDetails;
+    let mentorName = [];
+    studentsDetails.forEach((element)=>{
+        mentorName.push(element.mentor)
+    })
+
+    for(let index=0; index<mentorName.length; index++){
+        let count = 0 ;
+        for(let j=index+1 ; j<mentorName.length ; j++){
+            if(mentorName[index] === mentorName[j]){
+                count++
+            }
+        }
+        if(count>15){
+            print(mentorName[index])
+        }  
+    }  
+})
+
+---------------------------------------------------------------------------------------------------------------------------------
+6)Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020
+
+Ans:-
+
+db.users.find().forEach((ele)=>{
+    
+    ele.userDetails.forEach((element)=>{
+        let studentName = element.user
+       element.classDetails.forEach((ele)=>{
+        if(ele.attedence === "absent"){
+            if(ele.tasks === "notcompleted"){
+                print(ele.date + " " + studentName + " " + "absent and also not completed task")
+            }
+            else{
+                print(ele.date + " " + studentName + " " + "absent")
+            }
+        }else if(ele.tasks === "notcompleted"){
+            print(ele.date + " " + studentName + " " + "not completed task")
+        }
+       })
+    })
+})
+
